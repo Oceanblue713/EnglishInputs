@@ -1,16 +1,22 @@
 const assert = require("chai").assert;
-const word = require("../word");
+const Word = require("../word.js");
 
 describe("returnResults", () => {
+  const input = new Word("");
   describe("the function returns an array of English words", () => {
     it("the function returns any English words in working string", () => {
-      const working = "working";
-      const workingArray = word.returnResults(working);
-      let workingArrayFromcreatehWords = word.createWords(working);
-      workingArrayFromfindEnglishWords = word.findEnglishWords(
+      input.word = "working";
+      const workingArray = input.returnResults();
+      let workingArrayFromcreatehWords = input.createWords();
+      workingArrayFromfindEnglishWords = input.findEnglishWords(
         workingArrayFromcreatehWords
       );
-      assert.notStrictEqual(workingArray, workingArrayFromfindEnglishWords);
+      for (let i in workingArrayFromfindEnglishWords) {
+        assert.strictEqual(
+          workingArray[i],
+          workingArrayFromfindEnglishWords[i]
+        );
+      }
     });
   });
 
@@ -24,33 +30,39 @@ describe("returnResults", () => {
         "Your input doesn't contain any English words.";
     });
     it("returns an error message when the input is empty", () => {
-      const input = word.returnResults("");
-      assert.equal(input, errorMessage);
+      input.word = "";
+      const message = input.returnResults();
+      assert.equal(message, errorMessage);
     });
 
     it("returns an error message when the input has more than two words", () => {
-      let moreThanTwoWords = word.returnResults("This is a pen.");
-      assert.equal(moreThanTwoWords, errorMessage);
+      input.word = "Hello World!";
+      let moreThanTwoWords = input.returnResults();
+      assert.strictEqual(moreThanTwoWords, errorMessage);
     });
 
     it("returns an error message when the input includes non Alphabet character", () => {
-      let nonAlphabet = word.returnResults("안녕하세요");
-      assert.equal(nonAlphabet, errorMessage);
+      input.word = "안녕하세요";
+      let nonAlphabet = input.returnResults();
+      assert.strictEqual(nonAlphabet, errorMessage);
     });
 
     it("returns an error message when the input includes symbols", () => {
-      let symbols = word.returnResults("Good.Night@@");
-      assert.equal(symbols, errorMessage);
+      input.word = "Good.Night@@";
+      let symbols = input.returnResults();
+      assert.strictEqual(symbols, errorMessage);
     });
 
     it("returns an error message when the input is a number", () => {
-      let number = word.returnResults(999999);
-      assert.equal(number, errorMessage);
+      input.word = 999999;
+      let number = input.returnResults();
+      assert.strictEqual(number, errorMessage);
     });
 
     it("returns an error message when the input doesn't contain any English words", () => {
-      let words = word.returnResults("lll");
-      assert.equal(words, noEnglishContainsMessage);
+      input.word = "lll";
+      let words = input.returnResults();
+      assert.strictEqual(words, noEnglishContainsMessage);
     });
   });
 });
