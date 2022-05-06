@@ -41,7 +41,7 @@ describe("returnResults", () => {
       assert.strictEqual(moreThanTwoWords, errorMessage);
     });
 
-    it("returns an error message when the input includes non Alphabet character", () => {
+    it("returns an error message when the input includes non Alphabet characters", () => {
       input.word = "안녕하세요";
       let nonAlphabet = input.returnResults();
       assert.strictEqual(nonAlphabet, errorMessage);
