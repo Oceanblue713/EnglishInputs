@@ -173,7 +173,7 @@ describe("createWords function", () => {
       expect(emptyInput).to.be.an("array");
     });
 
-    it("returns an empty array when the input includes non Alphabet character", () => {
+    it("returns an empty array when the input includes non Alphabet characters", () => {
       input.word = "こんにちは";
       const nonAlphabet = input.createWords();
       expect(nonAlphabet).to.be.empty;
@@ -194,7 +194,7 @@ describe("createWords function", () => {
       expect(number).to.be.an("array");
     });
 
-    it("returns an empty array the input is more than 21 characters", () => {
+    it("returns an empty array when the input is more than 21 characters", () => {
       let longCharacter = "d".repeat(21);
       input.word = longCharacter;
       const longCharacterBool = input.createWords();
@@ -203,7 +203,7 @@ describe("createWords function", () => {
     });
 
     // Skipping this test because it throws a JavaScript heap out of memory error
-    it.skip("returns an empty array the input is more than 189819 characters", () => {
+    it.skip("returns an empty array when the input is more than 189819 characters", () => {
       const longCharacter = "a".repeat(189819);
       input.word = longCharacter;
       const longCharacterBool = input.createWords();

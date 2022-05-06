@@ -191,7 +191,7 @@ describe("findEnglishWords", () => {
   });
 
   describe("the function returns an empty array when the array doesn't include an English word", () => {
-    it("returns an empty array when two words don't include English word", () => {
+    it("returns an empty array when two words don't include an English word", () => {
       const noEnglishWord = ["xx", "yy"];
       assert.isEmpty(word.findEnglishWords(noEnglishWord));
     });
