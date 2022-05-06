@@ -1,13 +1,16 @@
 const assert = require("chai").assert;
-const { createWords } = require("../word");
+const expect = require("chai").expect;
+const Word = require("../word.js");
 
 describe("createWords function", () => {
+  const input = new Word("");
   describe("the function returns an array of strings", () => {
     it("returns array of dog string", () => {
       const dog = ["d", "dg", "do", "dog", "g", "o", "og"];
-      const dogCreated = createWords("dog");
+      input.word = "dog";
+      const dogCreated = input.createWords();
       for (let i in dogCreated) {
-        assert.equal(dogCreated[i], dog[i]);
+        assert.strictEqual(dogCreated[i], dog[i]);
       }
     });
     it("returns array of working strings", () => {
@@ -140,44 +143,72 @@ describe("createWords function", () => {
         "wrn",
         "wrng",
       ];
-      let workingCreated = createWords("working");
+      input.word = "working";
+      const workingCreated = input.createWords();
       for (let i in workingCreated) {
-        assert.equal(workingCreated[i], working[i]);
+        assert.strictEqual(workingCreated[i], working[i]);
       }
+    });
+
+    it("returns an array when the input is 20 characters", () => {
+      const twentyCharacter = "b".repeat(20);
+      input.word = twentyCharacter;
+      const maxChar = input.createWords();
+      expect(maxChar).to.not.empty;
     });
   });
 
-  describe("the function returns false when the condition does not match", () => {
-    it("returns false when the input has more than two words", () => {
-      let moreThanTwoWords = createWords("This is a pen.");
-      assert.isFalse(moreThanTwoWords);
+  describe("the function returns an empty array when the condition does not match", () => {
+    it("returns an empty array when the input has more than two words", () => {
+      input.word = "This is a pen.";
+      const moreThanTwoWords = input.createWords();
+      expect(moreThanTwoWords).to.be.empty;
+      expect(moreThanTwoWords).to.be.an("array");
     });
 
-    it("returns false when the input is empty", () => {
-      let emptyInput = createWords("");
-      assert.isFalse(emptyInput);
+    it("returns an empty array when the input is empty", () => {
+      input.word = "";
+      const emptyInput = input.createWords();
+      expect(emptyInput).to.be.empty;
+      expect(emptyInput).to.be.an("array");
     });
 
-    it("returns false when the input includes non Alphabet character", () => {
-      let nonAlphabet = createWords("こんにちは");
-      assert.isFalse(nonAlphabet);
+    it("returns an empty array when the input includes non Alphabet character", () => {
+      input.word = "こんにちは";
+      const nonAlphabet = input.createWords();
+      expect(nonAlphabet).to.be.empty;
+      expect(nonAlphabet).to.be.an("array");
     });
 
-    it("returns false when the input includes symbols", () => {
-      let symbols = createWords("Hello!#");
-      assert.isFalse(symbols);
+    it("returns an empty array when the input includes symbols", () => {
+      input.word = "Hello!#";
+      const symbols = input.createWords();
+      expect(symbols).to.be.empty;
+      expect(symbols).to.be.an("array");
     });
 
-    it("returns false when the input is a number", () => {
-      let number = createWords(100);
-      assert.isFalse(number);
+    it("returns an empty array when the input is a number", () => {
+      input.word = 100;
+      const number = input.createWords();
+      expect(number).to.be.empty;
+      expect(number).to.be.an("array");
+    });
+
+    it("returns an empty array the input is more than 21 characters", () => {
+      let longCharacter = "d".repeat(21);
+      input.word = longCharacter;
+      const longCharacterBool = input.createWords();
+      expect(longCharacterBool).to.be.empty;
+      expect(longCharacterBool).to.be.an("array");
     });
 
     // Skipping this test because it throws a JavaScript heap out of memory error
-    it.skip("returns false the input is more than 189819 characters", () => {
-      let longCharacter = "a".repeat(189819);
-      let longCharacterBool = createWords(longCharacter);
-      assert.isFalse(longCharacterBool);
+    it.skip("returns an empty array the input is more than 189819 characters", () => {
+      const longCharacter = "a".repeat(189819);
+      input.word = longCharacter;
+      const longCharacterBool = input.createWords();
+      expect(longCharacterBool).to.be.empty;
+      expect(longCharacterBool).to.be.an("array");
     });
   });
 });

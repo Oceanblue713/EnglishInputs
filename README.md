@@ -9,7 +9,7 @@ This is a console app, when you input a string, the app returns an array of word
 3. Use `npm install` command to install the dependencies
 
 ## **How to Use**
-When you want to start the app, put `node word.js` command in your terminal. When the app starts, "Enter a word: " message will be displayed, you can put in any words and hit the Enter key. Enjoy!
+When you want to start the app, put `node input.js` command in your terminal. When the app starts, "Enter a word: " message will be displayed, you can put in any words and hit the Enter key. Enjoy!
 
 ## **Run Tests**
 When you want to run all the tests, use the `npm test` command.
@@ -22,6 +22,7 @@ If you want to run a specific file, use `node_modules/.bin/mocha --spec ./test/{
 - When user inputs only one character, the app won't recognized it as an English word.
 - Numbers, sysmbols or other languages letters are expected in the input. If these are present, app will show an error message.
 - When the user does not input any words and hits the Enter Key, the app will display a message.
+- The maximum number of characters allowed is 20.
 - English words are provided by a third party, we don't need to validate the dictionary.
 
 ## **Tools that I used**

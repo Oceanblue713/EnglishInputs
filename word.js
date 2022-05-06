@@ -1,81 +1,75 @@
-const createWords = (word) => {
-  word = word.toString();
-  checkWord = word.split(" ");
-  if (checkWord.length !== 1 || checkWord[0] === "") {
-    return false;
+class Word {
+  constructor(word) {
+    this.word = word;
   }
 
-  const symbols = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-  const alphabet = /[a-zA-Z]/;
-  if (symbols.test(word) || !alphabet.test(word)) {
-    return false;
-  }
-
-  if (word.length > 189819) {
-    return false;
-  }
-
-  let result = [];
-  for (let i = 0; i < word.length; i++) {
-    let char = word[i].toLowerCase();
-    let tempArray = [char];
-    for (let x in result) {
-      result.push(result[x] + char);
+  createWords = () => {
+    let word = this.word.toString();
+    let result = [];
+    const checkWord = word.split(" ");
+    if (checkWord.length !== 1 || checkWord[0] === "") {
+      return result;
     }
-    result = result.concat(tempArray).sort();
-  }
-  return result;
-};
 
-const findEnglishWords = (words) => {
-  const fs = require("fs");
-  const wordListPath = require("word-list");
-  const wordArray = fs.readFileSync(wordListPath, "utf8").split("\n");
-  const englishWords = [];
-  for (let w in words) {
-    if (wordArray.includes(words[w].toString())) {
-      englishWords.push(words[w]);
+    const symbols = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+    const alphabet = /[a-zA-Z]/;
+    if (symbols.test(word) || !alphabet.test(word)) {
+      return result;
     }
-  }
-  if (englishWords.length === 0) {
-    return false;
-  } else {
-    const nonDuplicate = [];
-    englishWords.forEach((word) => {
-      if (!nonDuplicate.includes(word)) {
-        nonDuplicate.push(word);
+
+    if (word.length > 20) {
+      return result;
+    }
+
+    for (let i = 0; i < word.length; i++) {
+      let char = word[i].toLowerCase();
+      let tempArray = [char];
+      for (let x in result) {
+        result.push(result[x] + char);
       }
-    });
-    return nonDuplicate.sort();
-  }
-};
-
-const returnResults = (sentence) => {
-  if (createWords(sentence) !== false) {
-    sentence = createWords(sentence);
-    if (
-      findEnglishWords(sentence).length === 0 ||
-      !findEnglishWords(sentence)
-    ) {
-      return "Your input doesn't contain any English words.";
-    } else {
-      return findEnglishWords(sentence);
+      result = result.concat(tempArray).sort();
     }
-  } else {
-    return "Error! Incorrect input.";
-  }
-};
+    return result;
+  };
 
-module.exports = { createWords, findEnglishWords, returnResults };
+  findEnglishWords = (words) => {
+    const fs = require("fs");
+    const wordListPath = require("word-list");
+    const wordArray = fs.readFileSync(wordListPath, "utf8").split("\n");
+    const englishWords = [];
+    for (let w in words) {
+      if (wordArray.includes(words[w].toString())) {
+        englishWords.push(words[w]);
+      }
+    }
+    if (englishWords.length === 0) {
+      return englishWords;
+    } else {
+      const nonDuplicate = [];
+      englishWords.forEach((word) => {
+        if (!nonDuplicate.includes(word)) {
+          nonDuplicate.push(word);
+        }
+      });
+      return nonDuplicate.sort();
+    }
+  };
 
-// The code below is for displaying input and output in terminal.
-const readline = require("readline");
-const reader = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+  returnResults = () => {
+    if (this.createWords().length !== 0) {
+      const sentence = this.createWords(this.word);
+      if (
+        this.findEnglishWords(sentence).length === 0 ||
+        !this.findEnglishWords(sentence)
+      ) {
+        return "Your input doesn't contain any English words.";
+      } else {
+        return this.findEnglishWords(sentence);
+      }
+    } else {
+      return "Error! Incorrect input.";
+    }
+  };
+}
 
-reader.question("Enter a string: ", (word) => {
-  console.log(returnResults(word));
-  reader.close();
-});
+module.exports = Word;

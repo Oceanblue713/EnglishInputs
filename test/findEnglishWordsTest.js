@@ -1,14 +1,15 @@
 const assert = require("chai").assert;
-const { findEnglishWords } = require("../word");
+const Word = require("../word.js");
 
 describe("findEnglishWords", () => {
+  const word = new Word("");
   describe("the function returns an array of English words", () => {
     it("returns an array of English words from the word dog", () => {
       const dogArray = ["d", "dg", "do", "dog", "g", "o", "og"];
       const expectedArray = ["do", "dog"];
-      const dogArrayOnlyEnglish = findEnglishWords(dogArray);
+      const dogArrayOnlyEnglish = word.findEnglishWords(dogArray);
       for (let i in dogArrayOnlyEnglish) {
-        assert.equal(dogArrayOnlyEnglish[i], expectedArray[i]);
+        assert.strictEqual(dogArrayOnlyEnglish[i], expectedArray[i]);
       }
     });
   });
@@ -172,9 +173,9 @@ describe("findEnglishWords", () => {
         "wrng",
       ];
       const expectedArray = workingExpectedArrayOnlyEnglish;
-      const workingArrayOnlyEnglish = findEnglishWords(workingArray);
+      const workingArrayOnlyEnglish = word.findEnglishWords(workingArray);
       for (let i in workingArrayOnlyEnglish) {
-        assert.equal(workingArrayOnlyEnglish[i], expectedArray[i]);
+        assert.strictEqual(workingArrayOnlyEnglish[i], expectedArray[i]);
       }
     });
 
@@ -185,12 +186,14 @@ describe("findEnglishWords", () => {
           duplicateWord.push(word);
         }
       });
-      assert.equal(duplicateWord.length, 0);
+      assert.strictEqual(duplicateWord.length, 0);
     });
   });
 
-  describe("the function returns false when the array doesn't include an English word", () => {
-    const noEnglishWord = ["xx", "yy"];
-    assert.isFalse(findEnglishWords(noEnglishWord));
+  describe("the function returns an empty array when the array doesn't include an English word", () => {
+    it("returns an empty array when two words don't include English word", () => {
+      const noEnglishWord = ["xx", "yy"];
+      assert.isEmpty(word.findEnglishWords(noEnglishWord));
+    });
   });
 });
